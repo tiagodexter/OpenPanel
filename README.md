@@ -13,7 +13,7 @@ MySQL
 Nginx
 
 For installation you just clone this project and install node modules.
----
+--- sh
 # unzip master.zip
 # cd openproject
 # npm install
@@ -31,5 +31,5 @@ Now you need to change the database connection, just edit the file config/connec
 
 After all packages was installed, you just start the app.
 ---
-# node app.js
+    node app.js
 ---
