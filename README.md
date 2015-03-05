@@ -13,13 +13,13 @@ MySQL
 Nginx
 
 For installation you just clone this project and install node modules.
-
+---
 # unzip master.zip
 # cd openproject
 # npm install
-
+---
 Now you need to change the database connection, just edit the file config/connections.js and change a few lines.
-
+---
   openPanelMysql: {
     adapter: 'sails-mysql',
     host: 'HOST',
@@ -27,8 +27,9 @@ Now you need to change the database connection, just edit the file config/connec
     password: 'PASSWORD',
     database: 'DATABASE'
   },
-
+---
 
 After all packages was installed, you just start the app.
-
+---
 # node app.js
+---
