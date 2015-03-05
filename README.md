@@ -18,7 +18,7 @@ For installation you just clone this project and install node modules.
 # cd openproject
 # npm install
 ```
-Now you need to change the database connection, just edit the file config/connections.js and change a few lines.
+Now you need to change the database connection, just edit the file `config/connections.js` and change a few lines.
 ```
   openPanelMysql: {
     adapter: 'sails-mysql',
@@ -31,5 +31,5 @@ Now you need to change the database connection, just edit the file config/connec
 
 After all packages was installed, you just start the app.
 ```
-    node app.js
+# node app.js
 ```
