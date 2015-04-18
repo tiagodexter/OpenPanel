@@ -16,12 +16,16 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   'styles/**/*.css'
+
 ];
 
 
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
+
+
+  'bower_components/jquery/dist/jquery.min.js',
   
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
