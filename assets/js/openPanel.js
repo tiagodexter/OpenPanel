@@ -1,6 +1,7 @@
-function login(){
+function login(){	
 	$(function(){
 		$('#signinForm').submit(function(e){
+			alert("TESTE");
 			e.preventDefault();
 			$.ajax({
 				type:"POST",
