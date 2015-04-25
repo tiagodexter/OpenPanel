@@ -1,19 +1,16 @@
-function login(){	
-	$(function(){
-		$('#signinForm').submit(function(e){
-			alert("TESTE");
-			e.preventDefault();
-			$.ajax({
-				type:"POST",
-				url:"/users/ajaxLogin",
-				data:$(this).serialize(),
-				sucess:function(res){
-					
-				},
-				error:function(err){
-					alert("User or Password incorrect");
-				}
-			});
+function login(){
+	$('#signinForm').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/users/ajaxLogin",
+			data:$(this).serialize(),
+			success:function(res){
+				window.location= '/dashboard';
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
 		});
 	});
 }

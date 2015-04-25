@@ -13,25 +13,26 @@
  		Users.find({
  			login:user,
  			password:password
- 		}).exec(function(error,result){
- 			if(error){
-				//res.send(error, menssage)
-				//res.send(403);
-			}else{				
-				if(result.length > 0){
-					req.session.id=result.id;
-					res.redirect("homepage");
-				}else{
-					//res.send(403);
-				}
-			}
-			res.redirect("user/index");
-		});		
+ 		}).exec(function(error,result){ 			
+ 			/*if(error){
+ 				res.send(error, menssage)
+ 				res.send(403);
+ 			}else{				
+ 				if(result.length > 0){
+ 					req.session.id=result.id;
+ 					res.redirect("homepage");
+ 				}else{
+ 					res.send(403);
+ 				}
+ 			}*/
+ 			res.send(200, 'asdasdasd');			
+ 		});		
 
  	},
 
  	index:function(req, res){
  		res.render("user/index");
+ 		
  	}
  };
 
