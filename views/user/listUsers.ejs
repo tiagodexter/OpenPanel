@@ -49,13 +49,18 @@
 	<tbody>		
 		<% users.forEach(function (row) { %>			
 			<tr>
-				<td><%= row.id %></td>
+				<td><%= row.createdAt %></td>
 				<td><%= row.login %></td>
-				<td>BLA</td>
+				<td>
+					<button type="button" class="btn btn-warning" data-key="<%= row.id %>">Update</button>
+					<button type="button" class="btn btn-danger" data-key="<%= row.id %>">Delete</button>
+				</td>
 			</tr>
 			<% }) %>			
 		</tbody>
 	</table>
 	<script type="text/javascript">
 		formCreateUser();
+		deleteUser();
+		getInfoUser();
 	</script>

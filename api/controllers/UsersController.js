@@ -35,6 +35,19 @@
  		
  	},
 
+ 	ajaxViewListUsers:function(req, res){
+ 		Users.find().exec(function(error,result){ 			
+ 			if(error){
+ 				res.send(error, menssage)
+ 				res.send(403);
+ 			}else{				
+ 				res.render("user/listUsers",{
+ 					users:result
+ 				});
+ 			}		
+ 		});		 		
+ 	},
+
  	ajaxCreateUser:function(req, res){ 
  	/*	console.log(req.param("name"));
  		console.log(req.param("email"));
@@ -54,19 +67,32 @@
  		});
  	},
 
- 	ajaxViewListUsers:function(req, res){
- 		Users.find().exec(function(error,result){ 			
- 			if(error){
- 				res.send(error, menssage)
- 				res.send(403);
- 			}else{				
- 				res.render("user/listUsers",{
- 					users:result
- 				});
- 			}		
- 		});		 		
+ 	ajaxUpdateUser:function(req, res){
+
  	},
 
+ 	ajaxDeleteUser:function(req, res){ 	
+ 		var body = req.body;	  		 		
+ 		Users.destroy({ id: body['id'] })
+ 		.exec(function(error, data){
+ 			if(error){
+ 				res.send(500);
+ 			}else{
+ 				res.send(200, 'Usuario removido com sucesso');
+ 			}
+ 		});
+ 	},
 
+ 	ajaxGetInfoUser:function(req, res){
+ 		var body = req.body;
+ 		Users.find({ id: body['id'] })
+ 		.exec(function(error, data) {
+ 			if(error){
+ 				res.send(500);
+ 			}else{ 				
+ 				res.send(200, data);
+ 			}
+ 		});
+ 	},
  };
 

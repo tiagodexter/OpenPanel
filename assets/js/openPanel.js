@@ -43,6 +43,46 @@ function formCreateUser(){
 			data:$(this).serialize(),
 			success:function(res){
 				alert(res);
+				$('#myModal').modal('toggle');
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
+		});
+	});
+};
+
+function deleteUser(){
+	$('.btn-danger').click(function (e) {		
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/users/ajaxDeleteUser",
+			data: { 'id' : $(this).data('key')},
+			success:function(res){
+				alert(res);				
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
+		});
+	});
+};
+
+function getInfoUser(){
+	$('.btn-warning').click(function (e) {		
+		e.preventDefault();
+		alert($(this).data('key'));
+		$.ajax({
+			type:"POST",
+			url:"/users/ajaxGetInfoUser",
+			data: { 'id' : $(this).data('key')},
+			success:function(res){
+				$('#name').val(res[0].name);
+				$('#email').val(res[0].email);
+				$('#login').val(res[0].login);
+				$('#password').val(res[0].password);
+				$('#myModal').modal('toggle');
 			},
 			error:function(err){
 				alert("User or Password incorrect");
