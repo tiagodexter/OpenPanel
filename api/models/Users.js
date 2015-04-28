@@ -28,15 +28,13 @@ module.exports = {
 		},
 	},
 
-	beforeCreate: function(values, cb) {
-    
-    encrypt(values.password, function(err, password) {
-    	if(err) return cb(err);
-
-    	values.password = password;
-    	cb();
-    });
-},
+	/*beforeCreate: function(values, cb) {		
+		encrypt(values.password, function(err, password) {
+			if(err) return cb(err);
+			values.password = password;
+			cb();
+		});
+},*/
 
 };
 

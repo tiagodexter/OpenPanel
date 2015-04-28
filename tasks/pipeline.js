@@ -6,7 +6,7 @@
  *
  * (Note that you can take advantage of Grunt-style wildcard/glob/splat expressions
  * for matching multiple files.)
- */
+*/
 
 
 
@@ -15,7 +15,7 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/**/*.css'
+'styles/**/*.css'
 
 ];
 
@@ -25,8 +25,10 @@ var cssFilesToInject = [
 var jsFilesToInject = [
 
 
-  'bower_components/jquery/dist/jquery.min.js',
-  
+'bower_components/jquery/dist/jquery.min.js',
+
+'bower_components/bootstrap/dist/js/bootstrap.min.js',
+
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
@@ -36,7 +38,7 @@ var jsFilesToInject = [
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
   'js/**/*.js'
-];
+  ];
 
 
 // Client-side HTML templates are injected using the sources below
@@ -49,7 +51,7 @@ var jsFilesToInject = [
 // templates get spit out to the same file.  Be sure and check out `tasks/README.md`
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
-  'templates/**/*.html'
+'templates/**/*.html'
 ];
 
 

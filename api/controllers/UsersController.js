@@ -33,6 +33,40 @@
  	index:function(req, res){
  		res.render("user/index");
  		
- 	}
+ 	},
+
+ 	ajaxCreateUser:function(req, res){ 
+ 	/*	console.log(req.param("name"));
+ 		console.log(req.param("email"));
+ 		console.log(req.param("login"));
+ 		console.log(req.param("password"));*/
+ 		Users.create({
+ 			name:req.param("name"),
+ 			email:req.param("email"),
+ 			login:req.param("login"),
+ 			password: req.param("password"),
+ 		}).exec(function(error, data){
+ 			if(error){
+ 				res.send(500);
+ 			}else{
+ 				res.send(200, 'Usuario cadastrado com sucesso');
+ 			}
+ 		});
+ 	},
+
+ 	ajaxViewListUsers:function(req, res){
+ 		Users.find().exec(function(error,result){ 			
+ 			if(error){
+ 				res.send(error, menssage)
+ 				res.send(403);
+ 			}else{				
+ 				res.render("user/listUsers",{
+ 					users:result
+ 				});
+ 			}		
+ 		});		 		
+ 	},
+
+
  };
 

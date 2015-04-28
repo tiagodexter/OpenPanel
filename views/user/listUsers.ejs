@@ -1,0 +1,61 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	Create user
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Create User</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin" id="formCreateUser">
+					<label for="inputName" class="sr-only">Name</label>	
+					<input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus>
+					<label for="inputEmail" class="sr-only">Email address</label>					
+					<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
+					<label for="inputLogin" class="sr-only">Name</label>	
+					<input type="text" id="login" name="login" class="form-control" placeholder="Login" required>
+					<label for="inputPassword" class="sr-only">Password</label>
+					<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>       
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table id="tableListUsers" class="display">
+	<thead>
+		<tr>
+			<th>Data Criacao</th>
+			<th>Login</th>
+			<th>Acao</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>Data Criacao</th>
+			<th>Login</th>
+			<th>Acao</th>
+		</tr>
+	</tfoot>
+	<tbody>		
+		<% users.forEach(function (row) { %>			
+			<tr>
+				<td><%= row.id %></td>
+				<td><%= row.login %></td>
+				<td>BLA</td>
+			</tr>
+			<% }) %>			
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		formCreateUser();
+	</script>
