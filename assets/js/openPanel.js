@@ -91,4 +91,18 @@ function getInfoUser(){
 	});
 }
 
+function getPanel(){	
+	$.ajax({
+		type:"POST",
+		url:"/dashboard/ajaxPanel",		
+		success:function(res){
+			console.log(res);
+			$('#server').html(res[1]);		
+		},
+		error:function(err){
+			alert("User or Password incorrect");
+		}
+	});
+}
+
 
