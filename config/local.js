@@ -27,7 +27,7 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.local.html
  */
 
-module.exports = {
+ module.exports = {
 
   /***************************************************************************
    * Your SSL certificate and key, if you want to be able to serve HTTP      *
@@ -61,6 +61,7 @@ module.exports = {
    ***************************************************************************/
 
   // port: process.env.PORT || 1337,
+  host: '10.69.69.249',
 
   /***************************************************************************
    * The runtime "environment" of your Sails app is either typically         *
@@ -82,4 +83,4 @@ module.exports = {
 
    // environment: process.env.NODE_ENV || 'development'
 
-};
+ };

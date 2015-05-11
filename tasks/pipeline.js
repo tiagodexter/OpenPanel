@@ -29,6 +29,8 @@ var jsFilesToInject = [
 
 'bower_components/bootstrap/dist/js/bootstrap.min.js',
 
+'bower_components/morrisjs/morris.js',
+
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 

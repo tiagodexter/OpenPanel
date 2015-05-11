@@ -97,7 +97,31 @@ function getPanel(){
 		url:"/dashboard/ajaxPanel",		
 		success:function(res){
 			console.log(res);
-			$('#server').html(res[1]);		
+			$('#server').html(res[1]);
+
+			var str = res[2].replace(/^\s+|\s+$/g,"");
+			var elementsDonuts = str.split(" ");
+			console.log(res[3]);
+
+			Morris.Donut({
+				element: 'donut-chart-diskspace',
+				data: [
+				{label: "Size (GB)", value: elementsDonuts[14].slice(0,-1)},
+				{label: "Used (GB)", value: elementsDonuts[17].slice(0,-1)},
+				{label: "Avail (GB)", value: elementsDonuts[20].slice(0,-1)}
+				],
+				colors: [
+				'#337AB7',
+				'#D9534F',
+				'#5CB85C'
+				],
+			});
+
+			var memory = res[3].split(" ");	
+			var resultMemory =  (memory[1] / 1024)/1024;		
+
+			$('#memory').html(resultMemory + " GB");
+
 		},
 		error:function(err){
 			alert("User or Password incorrect");

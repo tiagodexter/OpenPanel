@@ -268,13 +268,13 @@
 					<div class="panel-body">
 						<div class="list-group">
 							<a href="#" class="list-group-item">
-								<i class="fa fa-comment fa-fw"></i> New Comment
-								<span class="pull-right text-muted small"><em id='server'>4 minutes ago</em>
+								<i class="fa fa-comment fa-fw"></i> Hostname
+								<span class="pull-right text-muted small"><em id='server'></em>
 								</span>
 							</a>
 							<a href="#" class="list-group-item">
-								<i class="fa fa-twitter fa-fw"></i> 3 New Followers
-								<span class="pull-right text-muted small"><em>12 minutes ago</em>
+								<i class="fa fa-twitter fa-fw"></i> Memory (GB)
+								<span class="pull-right text-muted small"><em id='memory'></em>
 								</span>
 							</a>
 							<a href="#" class="list-group-item">
@@ -317,6 +317,17 @@
 					<!-- /.panel-body -->
 				</div>
 			</div>
+			<div class="col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<i class="fa fa-bar-chart-o fa-fw"></i> Diskspace GB
+					</div>
+					<div class="panel-body">
+						<div id="donut-chart-diskspace"></div>						
+					</div>
+					<!-- /.panel-body -->
+				</div>
+			</div>			
 		</div>
 	</div>
 	<!-- /#page-wrapper -->
