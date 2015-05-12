@@ -17,13 +17,19 @@
  			arrayCommands.push(result);
  			sails.controllers.dashboard.run("hostname", function(result) { 
  				arrayCommands.push(result);
- 				sails.controllers.dashboard.run("df -H | head -2 | tail -1", function(result) { 
+ 				sails.controllers.dashboard.run("df -H", function(result) { 
  					arrayCommands.push(result);
  					sails.controllers.dashboard.run("sysctl -a | grep memsize", function(result) { 
  						arrayCommands.push(result);
- 						res.send(200, arrayCommands);
- 					}); 
- 					
+ 						sails.controllers.dashboard.run("uptime", function(result) { 
+ 							arrayCommands.push(result);
+ 							sails.controllers.dashboard.run("sysctl -n machdep.cpu.brand_string", function(result) { 
+ 								arrayCommands.push(result);
+ 								res.send(200, arrayCommands);
+ 							}); 
+ 							
+ 						}); 
+ 					});  					
  				}); 
  			}); 
  		}); 		
