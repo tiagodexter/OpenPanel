@@ -8,26 +8,29 @@
  module.exports = {
  	ajaxLogin:function(req, res){
  		var user = req.param("user");
- 		var password = req.param("password");
-
+ 		var password2 = req.param("password");
  		Users.find({
  			login:user,
- 			password:password
- 		}).exec(function(error,result){ 			
- 			/*if(error){
- 				res.send(error, menssage)
+ 			password:password2
+ 		}).exec(function(error,result){ 
+ 			if(result.length == 0){
+ 				res.send(error, "TESTE");
  				res.send(403);
- 			}else{				
- 				if(result.length > 0){
- 					req.session.id=result.id;
- 					res.redirect("homepage");
- 				}else{
- 					res.send(403);
- 				}
- 			}*/
- 			res.send(200, 'asdasdasd');			
+ 			}else{
+ 				req.session.id=result[0].id;
+ 				req.session.login=result[0].login;
+ 				res.redirect("dashboard");
+ 			};			 			
  		});		
+ 	},
 
+ 	ajaxLogout:function(req, res){
+ 		if(req.session.login != null){
+ 			req.session.destroy();
+ 			res.redirect("/");
+ 		}else{
+ 			res.redirect("/");
+ 		}; 	
  	},
 
  	index:function(req, res){

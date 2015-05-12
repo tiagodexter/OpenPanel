@@ -6,13 +6,17 @@
  */
 
  module.exports = {
- 	index: function(req, res){
- 		res.view("dashboard/index");
+ 	index: function(req, res){ 		
+ 		console.log(req.session.login);
+ 		if(req.session.login != null){
+ 			res.view("dashboard/index");
+ 		}else{
+ 			res.redirect("/");
+ 		}; 		
  	},
 
  	ajaxPanel:function(req, res){
  		var arrayCommands = [];
-
  		sails.controllers.dashboard.run("uname -a", function(result) { 
  			arrayCommands.push(result);
  			sails.controllers.dashboard.run("hostname", function(result) { 
@@ -24,7 +28,8 @@
  						sails.controllers.dashboard.run("uptime", function(result) { 
  							arrayCommands.push(result);
  							sails.controllers.dashboard.run("sysctl -n machdep.cpu.brand_string", function(result) { 
- 								arrayCommands.push(result);
+ 								arrayCommands.push(result); 								
+ 								arrayCommands.push(req.session.login);
  								res.send(200, arrayCommands);
  							}); 
  							

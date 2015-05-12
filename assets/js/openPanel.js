@@ -15,6 +15,22 @@ function login(){
 	});
 };
 
+function logout(){
+	$('#logoutUser').click(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/users/ajaxLogout",			
+			success:function(res){				
+				window.location= '/';
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
+		});
+	});
+};
+
 function views(){
 	$('#viewListUsers').click(function(e) {
 		e.preventDefault();
@@ -96,7 +112,7 @@ function getPanel(){
 		type:"POST",
 		url:"/dashboard/ajaxPanel",		
 		success:function(res){			
-
+			console.log(res);
 			$('#server').html(res[1]);
 
 			var index;
@@ -147,6 +163,8 @@ function getPanel(){
 			$('#uptime').html(res[4]);
 
 			$('#cpu').html(res[5]);
+
+			$('#accountLogged').html('('+res[6]+')');
 		},
 		error:function(err){
 			alert("User or Password incorrect");
