@@ -153,7 +153,7 @@ function getPanel(){
 						var unidadeAvail = (avail.slice(-1) == "B") ? avail.slice(-1) : avail.slice(-1) + "B";
 					};			
 					if(size.slice(0,-1) != 0){
-						$('#disks').prepend('<div class="col-sm-4" ><div class="text-center"><i class="fa fa-hdd-o fa-fw"></i><b>'+name+'</b></div><div id="donut-chart-diskspace'+index+'"></div></div>');												
+						$('#disks').prepend('<div class="col-sm-6" ><div class="text-center"><i class="fa fa-hdd-o fa-fw"></i><b>'+name+'</b></div><div id="donut-chart-diskspace'+index+'"></div></div>');												
 						Morris.Donut({
 							element: 'donut-chart-diskspace'+index+'',
 							data: [
