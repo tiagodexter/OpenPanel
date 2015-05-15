@@ -7,8 +7,33 @@
 
 module.exports = {
 
-  attributes: {
-
-  }
+	attributes: {
+		port: {
+			required: true,
+			type: "integer"
+		},
+		name: {
+			required: true,
+			type: "string"
+		},
+		rootDirectory: {
+			required: true,
+			type: "string"
+		},
+		alias: {
+			type: "array"
+		},
+		phpEnabled: {
+			type: "boolean",
+			required: true
+		},
+		proxyEnabled: {
+			type: "boolean",
+			required: true
+		},
+		proxyAddress: {
+			type: "string"
+		}
+	}
 };
 
