@@ -55,147 +55,148 @@
 						<a href="#" id="viewListUsers"><i class="fa fa-users fa-fw"></i> Users</a>						
 					</li>
 					<li>						
-						<a href="#" id="viewVirtualHosts"><i class="fa fa-tasks fa-fw"></i> Web Server<span class="fa arrow"></span></a>						<ul class="nav nav-second-level collapse">
-						<li>
-							<a href="#"><i class="fa fa-gear"></i> Settings</a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-tasks"></i> VirtualHosts</a>
-						</li>
-					</ul>
-				</li>
+						<a href="#"><i class="fa fa-tasks fa-fw"></i> Web Server<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li>
+								<a href="#" id="viewSettings"><i class="fa fa-gear"></i> Settings</a>
+							</li>
+							<li>
+								<a href="#" id="viewVirtualHosts"><i class="fa fa-tasks"></i> VirtualHosts</a>
+							</li>
+						</ul>
+					</li>
 
-			</ul>
+				</ul>
+			</div>
+			<!-- /.sidebar-collapse -->
 		</div>
-		<!-- /.sidebar-collapse -->
-	</div>
-	<!-- /.navbar-static-side -->
-</nav>
+		<!-- /.navbar-static-side -->
+	</nav>
 
-<div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header"><i class="fa fa-dashboard"></i> Dashboard</h1>
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header"><i class="fa fa-dashboard"></i> Dashboard</h1>
+			</div>
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.col-lg-12 -->
-	</div>
-	<div class="row">
-		<div class="col-lg-8">
-			<div class="row">
-				<div class="col-lg-6 col-md-6">
-					<div class="row">
-						<div class="panel panel-success">
-							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-3">
-										<i class="fa fa-tasks fa-5x"></i>
-									</div>
-									<div class="col-xs-9 text-right">
-										<div class="huge">26</div>
-										<div>Virtualhosts</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="row">
+							<div class="panel panel-success">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-tasks fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+											<div class="huge">26</div>
+											<div>Virtualhosts</div>
+										</div>
 									</div>
 								</div>
+								<a href="#">
+									<div class="panel-footer">
+										<span class="pull-left">View Details</span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
 							</div>
-							<a href="#">
-								<div class="panel-footer">
-									<span class="pull-left">View Details</span>
-									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-									<div class="clearfix"></div>
+						</div>
+						<div class="row">
+							<div class="panel panel-warning">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-users fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+											<div class="huge">2</div>
+											<div>Users</div>
+										</div>
+									</div>
 								</div>
-							</a>
+								<a href="#">
+									<div class="panel-footer">
+										<span class="pull-left">View Details</span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="panel panel-warning">
+					<div class="col-lg-6">
+						<div class="panel panel-default">
 							<div class="panel-heading">
-								<div class="row">
-									<div class="col-xs-3">
-										<i class="fa fa-users fa-5x"></i>
-									</div>
-									<div class="col-xs-9 text-right">
-										<div class="huge">2</div>
-										<div>Users</div>
-									</div>
+								<i class="fa fa-info fa-fw"></i> Server status
+							</div>
+							<!-- /.panel-heading -->
+							<div class="panel-body">
+								<div class="list-group">
+									<a href="#" class="list-group-item">
+										<i class="fa fa-info-circle fa-fw"></i> Hostname
+										<span class="pull-right text-muted small"><em id='server'></em>
+										</span>
+									</a>
+									<a href="#" class="list-group-item">
+										<i class="fa fa-gears fa-fw"></i> Memory (GB)
+										<span class="pull-right text-muted small"><em id='memory'></em>
+										</span>
+									</a>
+									<a href="#" class="list-group-item">
+										<i class="fa fa-bolt fa-fw"></i> Uptime
+										<span class="pull-right text-muted small"><em id='uptime'></em>
+										</span>
+									</a>
+									<a href="#" class="list-group-item">
+										<i class="fa fa-upload fa-fw"></i> CPU
+										<span class="pull-right text-muted small"><em id='cpu'></em>
+										</span>
+									</a>
+									<a href="#" class="list-group-item">
+										<i class="fa fa-warning fa-fw"></i> Version OpenPanel
+										<span class="pull-right text-muted small"><em>1.0 - ALPHA</em>
+										</span>
+									</a>							
 								</div>
 							</div>
-							<a href="#">
-								<div class="panel-footer">
-									<span class="pull-left">View Details</span>
-									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-									<div class="clearfix"></div>
-								</div>
-							</a>
+							<!-- /.panel-body -->
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6">
+				<div class="row">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<i class="fa fa-info fa-fw"></i> Server status
+							<i class="fa fa-exchange fa-fw"></i> Network Traffic
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
-							<div class="list-group">
-								<a href="#" class="list-group-item">
-									<i class="fa fa-info-circle fa-fw"></i> Hostname
-									<span class="pull-right text-muted small"><em id='server'></em>
-									</span>
-								</a>
-								<a href="#" class="list-group-item">
-									<i class="fa fa-gears fa-fw"></i> Memory (GB)
-									<span class="pull-right text-muted small"><em id='memory'></em>
-									</span>
-								</a>
-								<a href="#" class="list-group-item">
-									<i class="fa fa-bolt fa-fw"></i> Uptime
-									<span class="pull-right text-muted small"><em id='uptime'></em>
-									</span>
-								</a>
-								<a href="#" class="list-group-item">
-									<i class="fa fa-upload fa-fw"></i> CPU
-									<span class="pull-right text-muted small"><em id='cpu'></em>
-									</span>
-								</a>
-								<a href="#" class="list-group-item">
-									<i class="fa fa-warning fa-fw"></i> Version OpenPanel
-									<span class="pull-right text-muted small"><em>1.0 - ALPHA</em>
-									</span>
-								</a>							
-							</div>
+
+							<!-- /.panel-body -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-hdd-o fa-fw"></i> Disks
+						</div>
+						<div class="panel-body row" id='disks'>
+
 						</div>
 						<!-- /.panel-body -->
 					</div>
-				</div>
+				</div>	
 			</div>
-			<div class="row">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-exchange fa-fw"></i> Network Traffic
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-
-						<!-- /.panel-body -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-hdd-o fa-fw"></i> Disks
-					</div>
-					<div class="panel-body row" id='disks'>
-
-					</div>
-					<!-- /.panel-body -->
-				</div>
-			</div>	
 		</div>
 	</div>
-</div>
-<!-- /#page-wrapper -->
+	<!-- /#page-wrapper -->
 </div>
 <script type="text/javascript">
 	views();

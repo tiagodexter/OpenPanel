@@ -48,6 +48,34 @@ function views(){
 			}
 		});
 	});
+	$('#viewSettings').click(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/webserver/settings",
+			success:function(res){				
+				$('#page-wrapper').empty();
+				$('#page-wrapper').html(res);
+			},
+			error:function(err){
+				alert("Error while render settings Webserver! Try again later");
+			}
+		});
+	});
+	$('#viewVirtualHosts').click(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/webserver/virtualhost",
+			success:function(res){				
+				$('#page-wrapper').empty();
+				$('#page-wrapper').html(res);
+			},
+			error:function(err){
+				alert("Error while render VirtualHost list to webserver! Try again later");
+			}
+		});
+	});
 };
 
 function formCreateUser(){
