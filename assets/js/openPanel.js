@@ -180,6 +180,7 @@ function getPanel(){
 			$('#cpu').html(res[5]);
 
 			$('#accountLogged').html('('+res[6]+')');
+			$('#side-menu').metisMenu();
 		},
 		error:function(err){
 			alert("User or Password incorrect");
