@@ -5,6 +5,16 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+ function Object_keys(obj) {
+ 	var keys = [], name;
+ 	for (name in obj) {
+ 		if (obj.hasOwnProperty(name)) {
+ 			keys.push(name);
+ 		}
+ 	}
+ 	return keys;
+ }
+
  module.exports = {
  	ajaxLogin:function(req, res){
  		var user = req.param("user");
@@ -52,10 +62,6 @@
  	},
 
  	ajaxCreateUser:function(req, res){ 
- 	/*	console.log(req.param("name"));
- 		console.log(req.param("email"));
- 		console.log(req.param("login"));
- 		console.log(req.param("password"));*/
  		Users.create({
  			name:req.param("name"),
  			email:req.param("email"),
@@ -63,9 +69,19 @@
  			password: req.param("password"),
  		}).exec(function(error, data){
  			if(error){
- 				res.send(500);
+ 				error = JSON.stringify(error);
+ 				error = JSON.parse(error);
+ 				if (error.error == 'E_VALIDATION') {
+ 					var erro = new Object();
+ 					erro["type"] = 'VALIDATION';
+ 					var el = Object_keys(error.invalidAttributes);
+ 					erro["fields"] = el; 					
+ 				} else {
+ 					var erro = error;
+ 				}
+ 				res.send(500,erro);
  			}else{
- 				res.send(200, 'Usuario cadastrado com sucesso');
+ 				res.send(200, 'User succefully created!');
  			}
  		});
  	},

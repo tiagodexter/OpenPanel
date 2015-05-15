@@ -1,8 +1,13 @@
+<br class="clear"/>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-	Create user
-</button>
-
+<div class="row">
+	<div class="col-lg-12 text-right">
+		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+			<i class="fa fa-user"></i> &nbsp;Create
+		</button>
+	</div>
+</div>
+<br class="clear"/>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -11,8 +16,9 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Create User</h4>
 			</div>
-			<div class="modal-body">
-				<form class="form-signin" id="formCreateUser">
+			<form id="formCreateUser">
+				<div class="modal-body">
+
 					<label for="inputName" class="sr-only">Name</label>	
 					<input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus>
 					<label for="inputEmail" class="sr-only">Email address</label>					
@@ -21,12 +27,12 @@
 					<input type="text" id="login" name="login" class="form-control" placeholder="Login" required>
 					<label for="inputPassword" class="sr-only">Password</label>
 					<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>       
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary btn-lg" type="submit"><i class="fa fa-save"></i> Create</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -34,23 +40,30 @@
 <table id="tableListUsers" class="display">
 	<thead>
 		<tr>
-			<th>Data Criacao</th>
 			<th>Login</th>
-			<th>Acao</th>
+			<th>Created date</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr>
-			<th>Data Criacao</th>
 			<th>Login</th>
-			<th>Acao</th>
+			<th>Created date</th>
+			<th>Action</th>
 		</tr>
 	</tfoot>
 	<tbody>		
-		<% users.forEach(function (row) { %>			
+		<% users.forEach(function (row) {
+			var day = row.createdAt.getDate();
+			var month = row.createdAt.getMonth()+1;
+			var year = row.createdAt.getFullYear();
+			var hour = row.createdAt.getHours();
+			var min = row.createdAt.getMinutes();
+			var dt = month+'/'+day+'/'+year+' '+hour+':'+min;
+			%>			
 			<tr>
-				<td><%= row.createdAt %></td>
 				<td><%= row.login %></td>
+				<td><%= dt %></td>
 				<td>
 					<button type="button" class="btn btn-warning" data-key="<%= row.id %>">Update</button>
 					<button type="button" class="btn btn-danger" data-key="<%= row.id %>">Delete</button>

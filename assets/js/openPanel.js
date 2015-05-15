@@ -44,7 +44,7 @@ function views(){
 				$('#tableListUsers').DataTable();
 			},
 			error:function(err){
-				alert("User or Password incorrect");
+				alert("Error while render user list! Try again later");
 			}
 		});
 	});
@@ -60,9 +60,25 @@ function formCreateUser(){
 			success:function(res){
 				alert(res);
 				$('#myModal').modal('toggle');
+				$('#viewListUsers').click();
 			},
 			error:function(err){
-				alert("User or Password incorrect");
+				console.log(JSON.parse(err.responseText));
+				var error = JSON.parse(err.responseText);
+				$('#formCreateUser input[type=text], input[type=email]').each(function() {
+					$(this).removeClass('alert-danger');
+					$(this).addClass('alert-success');
+				})
+				if (error.type == 'VALIDATION') {
+					$(error.fields).each(function(e,k) {
+						$(this).removeClass('alert-success');
+						$('#'+k).addClass('alert-danger');
+					});
+					alert('Error validatin data! Change data');
+				} else {
+					alert("Error creating user! Try again later");
+				}
+				
 			}
 		});
 	});
@@ -76,7 +92,8 @@ function deleteUser(){
 			url:"/users/ajaxDeleteUser",
 			data: { 'id' : $(this).data('key')},
 			success:function(res){
-				alert(res);				
+				alert(res);
+				$('#viewListUsers').click();				
 			},
 			error:function(err){
 				alert("User or Password incorrect");
@@ -88,7 +105,6 @@ function deleteUser(){
 function getInfoUser(){
 	$('.btn-warning').click(function (e) {		
 		e.preventDefault();
-		alert($(this).data('key'));
 		$.ajax({
 			type:"POST",
 			url:"/users/ajaxGetInfoUser",
@@ -97,7 +113,6 @@ function getInfoUser(){
 				$('#name').val(res[0].name);
 				$('#email').val(res[0].email);
 				$('#login').val(res[0].login);
-				$('#password').val(res[0].password);
 				$('#myModal').modal('toggle');
 			},
 			error:function(err){
