@@ -5,11 +5,57 @@
 </div>
 <br class="clear"/>
 <form id="form-settings">
+	<h4>Global</h4><hr>
 	<div class="form-group">
-		<label for="maxBodySize">Max Body Size</label>
-		<input type="email" class="form-control" id="maxBodySize" placeholder="Enter max body size in bytes">
+		<label for="worker_processes">Worker Process</label>
+		<input type="number" class="form-control" name="worker_processes" min="1" max="10" placeholder="Enter the number of processess (Default: 1)" value="<%= worker_processes%>">
+	</div>
+	<div class="form-group">
+		<label for="worker_connections">Worker Connections</label>
+		<input type="number" class="form-control" name="worker_connections" min="1" max="9999" placeholder="Enter the number of connections (Default: 1024)" value="<%= worker_connections%>">
+	</div>
+	<div class="form-group">
+		<label for="client_max_body_size">Max Body Size</label>
+		<input type="number" class="form-control" name="client_max_body_size" min="1" max="500" placeholder="Enter max body size in MB (Default: 10MB)" value="<%= client_max_body_size%>">
+	</div>
+	<div class="form-group">
+		<label for="client_body_buffer_size">Max Body Buffer Size</label>
+		<input type="number" class="form-control" name="client_body_buffer_size"  min="1" max="30" placeholder="Enter max body buffer size in MB (Default: 8MB)" value="<%= client_body_buffer_size%>">
+	</div>
+	<div class="form-group">
+		<label for="client_header_buffer_size">Max Header Buffer Size</label>
+		<input type="number" class="form-control" name="client_header_buffer_size"  min="1" max="50" placeholder="Enter max header buffer size in KB (Default: 1KB)" value="<%= client_header_buffer_size%>">
+	</div>
+	<h4>Compact</h4><hr>
+	<%
+	if (gzip_enable == "on") {
+		var von = "selected";
+		var voff = "";
+		var style = "block";
+	} else {
+		var von = "";
+		var voff = "selected";
+		var style = "none";
+	}
+	%>
+	<div class="form-group">
+		<label for="gzip_enable">GZip Enabled?</label>
+		<select id="gzip_enable" name="gzip_enable" class="form-control">
+			<option value="on" <%= von %>>Yes</option>
+			<option value="off" <%= voff %>>No</option>
+		</select>
+	</div>
+	<div class="form-group" style="display: <%= style %>" id="gzip_enabled">
+		<div class="form-group">
+			<label for="gzip_comp_level">Compression Level</label>
+			<input type="number" class="form-control" name="gzip_comp_level"  min="1" max="9" placeholder="Enter the compression level of gzip" value="<%= gzip_comp_level%>">
+		</div>
 	</div>
 	<div class="text-right">
 		<button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Save config</button>
 	</div>
 </form>
+
+<script>
+	Settings();
+</script>

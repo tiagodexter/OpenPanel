@@ -216,4 +216,26 @@ function getPanel(){
 	});
 }
 
+function Settings() {
+	$('#gzip_enable').change(function() {
+		$('#gzip_enabled').toggle();
+	});
 
+	$('#form-settings').submit(function(e) {
+		e.preventDefault();
+		if (confirm('Are you sure?')) {
+			$.ajax({
+				type:"POST",
+				url:"/webserver/saveSettings",
+				data:$(this).serialize(),
+				success: function(res) {
+					alert(res);
+				},
+				error: function(err) {
+					console.log(err);
+					alert('Error updating data! Try again later');
+				}
+			});
+		}
+	});
+}

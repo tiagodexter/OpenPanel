@@ -1,8 +1,8 @@
 {
   "name": "openpanel",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
+  "version": "0.0.1",
+  "description": "Panel for Server Administration",
   "keywords": [],
   "dependencies": {
     "ejs": "~0.8.4",
@@ -22,18 +22,17 @@
     "rc": "~0.5.0",
     "sails": "~0.10.5",
     "sails-disk": "~0.10.0",
-    "sails-mysql": "*",
     "sails-nedb": "^0.10.1-a3"
-  },
-  "scripts": {
-    "start": "node app.js",
-    "debug": "node debug app.js"
-  },
-  "main": "app.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/tiagodexter/openpanel.git"
-  },
-  "author": "tiagodexter",
-  "license": ""
-}
+    },
+    "scripts": {
+      "start": "node app.js",
+      "debug": "node debug app.js"
+      },
+      "main": "app.js",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/tiagodexter/openpanel.git"
+        },
+        "author": "tiagodexter",
+        "license": ""
+      }
