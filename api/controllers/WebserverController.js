@@ -76,13 +76,24 @@
 			res.redirect("/");
 		}; 		
 	},
-	virtualhost: function(req, res){ 		 		
+	
+	virtualhost: function(req, res){  		
 		if(req.session.login != null){
-			res.view("webserver/virtualhost");
+			Virtualhost.find().exec(function(error,result){ 			
+	 			if(error){
+	 				res.send(error, menssage)
+	 				res.send(403);
+	 			}else{				
+	 				res.render("webserver/virtualhost",{
+	 					virtualhosts:result
+	 				});
+	 			}		
+	 		});		
 		}else{
 			res.redirect("/");
 		};
 	},
+
 	saveSettings: function(req, res) {
 		var fs = require('fs');
 		fs.readFile(sails.config.definitions.nginx_file,'utf8',function(err,data) {
@@ -101,6 +112,59 @@
 			}
 		});
 
-	}
+	},
+
+	ajaxCreateVirtualHost:function(req, res){ 
+		Virtualhost.create({
+			port:req.param("port"),
+			name:req.param("name"),
+			rootDirectory:req.param("rootDirectory"),
+			alias:req.param("alias"),
+			phpEnabled:req.param("phpEnabled"),
+			proxyEnabled:req.param("proxyEnabled"),
+			proxyAddress:req.param("proxyAddress")			
+ 		}).exec(function(error, data){
+ 			if(error){
+ 				error = JSON.stringify(error);
+ 				error = JSON.parse(error);
+ 				if (error.error == 'E_VALIDATION') {
+ 					var erro = new Object();
+ 					erro["type"] = 'VALIDATION';
+ 					var el = Object_keys(error.invalidAttributes);
+ 					erro["fields"] = el; 					
+ 				} else {
+ 					var erro = error;
+ 				}
+ 				res.send(500,erro);
+ 			}else{
+ 				res.send(200, 'Virtual Host succefully created!');
+ 			}
+ 		});
+ 	},
+
+ 	ajaxDeleteVirtualHost:function(req, res){ 	
+ 		var body = req.body;	  		 		
+ 		Virtualhost.destroy({ id: body['id'] })
+ 		.exec(function(error, data){
+ 			if(error){
+ 				res.send(500);
+ 			}else{
+ 				res.send(200, 'Virtual Host  Successfully deleted');
+ 			}
+ 		});
+ 	},
+
+ 	ajaxGetInfoVirtualHost:function(req, res){
+ 		var body = req.body;
+ 		Virtualhost.find({ id: body['id'] })
+ 		.exec(function(error, data) {
+ 			if(error){
+ 				res.send(500);
+ 			}else{ 				
+ 				res.send(200, data);
+ 			}
+ 		});
+ 	},
+
 };
 

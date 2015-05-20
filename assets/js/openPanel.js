@@ -148,7 +148,7 @@ function getInfoUser(){
 			}
 		});
 	});
-}
+};
 
 function getPanel(){	
 	$.ajax({
@@ -214,7 +214,7 @@ function getPanel(){
 			alert("User or Password incorrect");
 		}
 	});
-}
+};
 
 function Settings() {
 	$('#gzip_enable').change(function() {
@@ -238,4 +238,117 @@ function Settings() {
 			});
 		}
 	});
+};
+
+function formCreateVirtualHost(){
+	$('#formCreateVirtualHost').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/webserver/ajaxCreateVirtualHost",
+			data:$(this).serialize(),
+			success:function(res){
+				alert(res);
+				$('#myModal').modal('toggle');
+				$('#viewVirtualHosts').click();
+				clearFormVirtualHost();
+			},
+			error:function(err){
+				console.log(JSON.parse(err.responseText));
+				var error = JSON.parse(err.responseText);
+				$('#formCreateVirtualHost input[type=text], input[type=email]').each(function() {
+					$(this).removeClass('alert-danger');
+					$(this).addClass('alert-success');
+				})
+				if (error.type == 'VALIDATION') {
+					$(error.fields).each(function(e,k) {
+						$(this).removeClass('alert-success');
+						$('#'+k).addClass('alert-danger');
+					});
+					alert('Error validatin data! Change data');
+				} else {
+					alert("Error creating user! Try again later");
+				}
+				
+			}
+		});
+	});
+};
+
+function deleteVirtualHost(){
+	$('.fa-trash').click(function (e) {		
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/webserver/ajaxDeleteVirtualHost",
+			data: { 'id' : $(this).data('key')},
+			success:function(res){
+				alert(res);
+				$('#viewVirtualHosts').click();				
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
+		});
+	});
+};
+
+function getInfoVirtualHost(){
+	$('.fa-edit').click(function (e) {		
+		e.preventDefault();
+		$.ajax({
+			type:"POST",
+			url:"/webserver/ajaxGetInfoVirtualHost",
+			data: { 'id' : $(this).data('key')},
+			success:function(res){				
+				$('#port').val(res[0].port);
+				$('#name').val(res[0].name);
+				$('#alias').val(res[0].alias);
+				$('#rootDirectory').val(res[0].rootDirectory);
+				$('#proxyAddress').val(res[0].proxyAddress);
+				$('#proxyEnabled option').each(function() {
+					if(JSON.parse($(this).val()) == res[0].proxyEnabled) {
+				        $(this).prop("selected", true);
+				    }								   
+				});
+				$('#phpEnabled option').each(function() {
+					if(JSON.parse($(this).val()) == res[0].phpEnabled) {
+				        $(this).prop("selected", true);
+				    }								   
+				});	
+				$('#myModalLabel').html("Update Virtual Host");		
+				$('.btn-primary').html('<i class="fa fa-save"> Update');		
+				$('#myModal').modal('toggle');
+			},
+			error:function(err){
+				alert("User or Password incorrect");
+			}
+		});
+	});
+};
+
+function modalCreateVirtualHost(){
+	$('.btn-success').click(function (e) {
+		$('#myModalLabel').html("Create Virtual Host");
+		$('.btn-primary').html('<i class="fa fa-save"> Create');
+		clearFormVirtualHost();
+	});
 }
+
+function clearFormVirtualHost(){
+	$('#port').val('');
+	$('#name').val('');
+	$('#alias').val('');
+	$('#rootDirectory').val('');
+	$('#proxyAddress').val('');
+	$('#proxyEnabled option').each(function() {
+		if(JSON.parse($(this).val()) == true) {
+	        $(this).prop("selected", true);
+	    }								   
+	});
+	$('#phpEnabled option').each(function() {
+		if(JSON.parse($(this).val()) == true) {
+	        $(this).prop("selected", true);
+	    }								   
+	});
+};

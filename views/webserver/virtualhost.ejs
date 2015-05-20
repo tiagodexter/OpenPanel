@@ -25,35 +25,89 @@
 	</div>
 </div>
 <br class="clear"/>
-<div class="row">
-	<div class="col-lg-12">
-		<div class="col-lg-2">
-			<div class="row">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-xs-3">
-								<i class="fa fa-tasks fa-5x"></i>
+<div class="row" id="listVirtualHosts">
+	<% virtualhosts.forEach(function (row) {%>			
+			<div class="col-lg-12">
+				<div class="col-lg-2">
+					<div class="row">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-xs-3">
+										<i class="fa fa-tasks fa-5x"></i>
+									</div>
+									<div class="col-xs-9 text-right">			
+										<%= row.rootDirectory %><br/>
+										<%= row.createdAt %><br/>
+										<%= row.name %><br/>
+										
+									</div>
+								</div>
 							</div>
-							<div class="col-xs-9 text-right">
-								google.com<br/>
-								5/14/2015<br/>
-								tiagodexter<br/>
-								
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer panel-primary">
-						<div class="row text-center">
-							<div class="col-lg-6">
-								<a href="#"><i class="fa fa-edit"></i> Edit</a> 
-							</div>
-							<div class="col-lg-6">
-								<a href="#"><i class="fa fa-trash"></i> Delete</a>
+							<div class="panel-footer panel-primary">
+								<div class="row text-center">
+									<div class="col-lg-6">
+										<a href="#"><i class="fa fa-edit" data-key="<%= row.id %>"></i> Edit</a> 
+									</div>
+									<div class="col-lg-6">
+										<a href="#"><i class="fa fa-trash" data-key="<%= row.id %>"></i> Delete</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+	<% }) %>	
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Create Virtual Host</h4>
+			</div>
+			<form id="formCreateVirtualHost">
+				<div class="modal-body">
+					<label>Port</label>	
+					<input type="number" id="port" name="port" size="10" min="1" max="65535" class="form-control" placeholder="port" required autofocus>					
+
+					<label>Name</label>	
+					<input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+
+					<label>Alias</label>					
+					<input type="text" id="alias" name="alias" class="form-control" placeholder="Alias" required>
+
+					<label>Root Directory</label>	
+					<input type="text" id="rootDirectory" name="rootDirectory" class="form-control" placeholder="Root Directory" required>		
+
+					<label>PHP Enabled</label>	
+					<select class="form-control" id="phpEnabled" name="phpEnabled">
+						  <option value="true">On</option>
+						  <option value="false">Off</option>
+					</select>	
+
+					<label>Proxy Enabled</label>	
+					<select class="form-control" id="proxyEnabled" name="proxyEnabled">
+						 <option value="true">On</option>
+						 <option value="false">Off</option>
+					</select>
+
+					<label>Proxy Address</label>	
+					<input type="text" id="proxyAddress" name="proxyAddress" class="form-control" placeholder="Proxy Address" required>						      
+				</div>				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary btn-lg" type="submit"><i class="fa fa-save"></i> Create</button>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
+<script type="text/javascript">
+		modalCreateVirtualHost();
+		formCreateVirtualHost();
+		deleteVirtualHost();
+		getInfoVirtualHost();
+</script>
+	
