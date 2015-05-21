@@ -39,6 +39,27 @@
  			}); 
  		}); 		
  	},
+
+
+ 	ajaxGetCountUsers:function(req, res){
+ 		Users.find().exec(function(error,result){ 			
+ 			if(error){
+ 				res.send(500);
+ 			}else{				
+ 				res.send(200, result);
+ 			}		
+ 		});	
+ 	},
+
+ 	ajaxGetCountVirtualHosts:function(req, res){
+		Virtualhost.find().exec(function(error, result){
+ 			if(error){
+ 				res.send(500);
+ 			}else{
+ 				res.send(200, result);
+ 			}
+ 		});
+ 	},
  	
  	run:function(cmd, callback){ 		
  		var exec = require('child_process').exec; 		

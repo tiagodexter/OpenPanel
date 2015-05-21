@@ -150,12 +150,39 @@ function getInfoUser(){
 	});
 };
 
+function getCountUsers(){
+	$.ajax({
+		type:"POST",
+		url:"/dashboard/ajaxGetCountUsers",		
+		success:function(res){			
+			console.log(res.length);
+			$('#qtdUsers').html(res.length);
+		},
+		error:function(err){
+			alert("User or Password incorrect");
+		}
+	});
+};
+
+function getCountVirtualHosts(){
+	$.ajax({
+		type:"POST",
+		url:"/dashboard/ajaxGetCountVirtualHosts",		
+		success:function(res){			
+			console.log(res.length);
+			$('#qtdVirtualHost').html(res.length);
+		},
+		error:function(err){
+			alert("User or Password incorrect");
+		}
+	});
+};
+
 function getPanel(){	
 	$.ajax({
 		type:"POST",
 		url:"/dashboard/ajaxPanel",		
-		success:function(res){			
-			console.log(res);
+		success:function(res){						
 			$('#server').html(res[1]);
 
 			var index;

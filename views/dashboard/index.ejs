@@ -92,7 +92,7 @@
 											<i class="fa fa-tasks fa-5x"></i>
 										</div>
 										<div class="col-xs-9 text-right">
-											<div class="huge">26</div>
+											<div class="huge" id="qtdVirtualHost">0</div>
 											<div>Virtualhosts</div>
 										</div>
 									</div>
@@ -114,7 +114,7 @@
 											<i class="fa fa-users fa-5x"></i>
 										</div>
 										<div class="col-xs-9 text-right">
-											<div class="huge">2</div>
+											<div class="huge" id="qtdUsers">0</div>
 											<div>Users</div>
 										</div>
 									</div>
@@ -201,5 +201,7 @@
 <script type="text/javascript">
 	views();
 	getPanel();
+	getCountUsers();
+	getCountVirtualHosts();
 	logout();
 </script>
