@@ -260,7 +260,7 @@ function Settings() {
 				},
 				error: function(err) {
 					console.log(err);
-					alert('Error updating data! Try again later');
+					alert(err.responseText);
 				}
 			});
 		}
