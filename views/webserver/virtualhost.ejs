@@ -69,32 +69,34 @@
 			</div>
 			<form id="formCreateVirtualHost">
 				<div class="modal-body">
-					<label>Port</label>	
+					<label>Listen Port</label>	
 					<input type="number" id="port" name="port" size="10" min="1" max="65535" class="form-control" placeholder="port" required autofocus>					
 
 					<label>Name</label>	
-					<input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+					<input type="text" id="name" name="name" class="form-control" placeholder="Domain Name (Ex: domain.com)" required>
 
 					<label>Alias</label>					
-					<input type="text" id="alias" name="alias" class="form-control" placeholder="Alias" required>
+					<input type="text" id="alias" name="alias" class="form-control" placeholder="Domain Alias (Ex: www.domain.com)" required>
 
-					<label>Root Directory</label>	
-					<input type="text" id="rootDirectory" name="rootDirectory" class="form-control" placeholder="Root Directory" required>		
-
+					<label>Document Root</label>	
+					<input type="text" id="rootDirectory" name="rootDirectory" class="form-control" placeholder="Document Root Ex: (/usr/local/www/domain)" required>		
+                                        <div id="php_enabled">
 					<label>PHP Enabled</label>	
 					<select class="form-control" id="phpEnabled" name="phpEnabled">
 						  <option value="true">On</option>
 						  <option value="false">Off</option>
 					</select>	
+                                        </div>
 
 					<label>Proxy Enabled</label>	
 					<select class="form-control" id="proxyEnabled" name="proxyEnabled">
 						 <option value="true">On</option>
-						 <option value="false">Off</option>
+						 <option value="false" selected>Off</option>
 					</select>
-
+                                        <div id="proxy_address" style="display:none">
 					<label>Proxy Address</label>	
-					<input type="text" id="proxyAddress" name="proxyAddress" class="form-control" placeholder="Proxy Address" required>						      
+					<input type="text" id="proxyAddress" name="proxyAddress" class="form-control" placeholder="Proxy Address (Ex: 192.168.0.2:80)">
+                                        </div>
 				</div>				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

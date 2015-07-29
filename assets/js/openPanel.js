@@ -360,6 +360,17 @@ function modalCreateVirtualHost(){
 		$('.btn-primary').html('<i class="fa fa-save"> Create');
 		clearFormVirtualHost();
 	});
+        $('#proxyEnabled').change(function() {
+                if ($(this).val() == "true") {
+                    $('#proxy_address').show();
+                    $('#phpEnabled').prop('disabled',true);
+                    $('#phpEnabled').val('false');
+                } else {
+                    $('#proxy_address').hide();
+                    $('#phpEnabled').prop('disabled',false);
+                    $('#phpEnabled').val('true');
+                }
+        });
 }
 
 function clearFormVirtualHost(){
@@ -368,14 +379,4 @@ function clearFormVirtualHost(){
 	$('#alias').val('');
 	$('#rootDirectory').val('');
 	$('#proxyAddress').val('');
-	$('#proxyEnabled option').each(function() {
-		if(JSON.parse($(this).val()) == true) {
-	        $(this).prop("selected", true);
-	    }								   
-	});
-	$('#phpEnabled option').each(function() {
-		if(JSON.parse($(this).val()) == true) {
-	        $(this).prop("selected", true);
-	    }								   
-	});
 };
