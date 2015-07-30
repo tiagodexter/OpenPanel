@@ -5,6 +5,16 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+ function Object_keys(obj) {
+ 	var keys = [], name;
+ 	for (name in obj) {
+ 		if (obj.hasOwnProperty(name)) {
+ 			keys.push(name);
+ 		}
+ 	}
+ 	return keys;
+ }
+
 Array.prototype.contains = function (needle) {
     for (i in this) {
         if (this[i].indexOf(needle) != -1)
@@ -133,8 +143,9 @@ http {\n\
         if (client_header_buffer_size != "") {
             ndt += "    client_header_buffer_size " + client_header_buffer_size + "k;\n";
         }
-        
-ndt += "\n\
+
+        ndt += "\n\\n\
+    include " + sails.config.definitions.sites_avaiable + "/*.conf;\n\
     server {\n\
         listen       80;\n\
         server_name  localhost;\n\
@@ -159,11 +170,11 @@ ndt += "\n\
                         console.log("Nginx reloaded!")
                         res.send(200, "Settings updated succefully!");
                     } else {
-                        console.error(error+"\n"+stderr);
+                        console.error(error + "\n" + stderr);
                         res.send(500, "Error reloading nginx");
                     }
                 });
-                
+
             } else {
                 console.error(err);
                 res.send(500, "Error updating file");
@@ -180,6 +191,7 @@ ndt += "\n\
             proxyEnabled: req.param("proxyEnabled"),
             proxyAddress: req.param("proxyAddress")
         }).exec(function (error, data) {
+            var fs = require('fs');
             if (error) {
                 error = JSON.stringify(error);
                 error = JSON.parse(error);
@@ -193,20 +205,91 @@ ndt += "\n\
                 }
                 res.send(500, erro);
             } else {
-                res.send(200, 'Virtual Host succefully created!');
+
+                if (!fs.existsSync(sails.config.definitions.sites_avaiable)) {
+                    fs.mkdirSync(sails.config.definitions.sites_avaiable);
+                }
+                var config_file = "server {\n\
+	listen " + req.param('port') + ";\n\
+	server_name " + req.param('name') + " " + req.param('alias') + ";\n";
+
+                if (req.param("proxyEnabled") == 'true') {
+                    config_file += "	location / {\n\
+		proxy_pass http://" + req.param("proxyAddress") + ";\n\
+        }\n";
+                } else {
+                    config_file += "    location / {\n\
+        	root   " + req.param('rootDirectory') + ";\n\
+       		index  index.php index.html index.htm;\n\
+		try_files $uri $uri/ /index.php?$args;\n\
+        }\n";
+                    if (req.param('phpEnabled') == 'true') {
+                        config_file += "	location ~ \.php$ {\n\
+		root           html;\n\
+		fastcgi_pass   127.0.0.1:9000;\n\
+		fastcgi_index  index.php;\n\
+		fastcgi_param SCRIPT_FILENAME " + req.param('rootDirectory') + "$fastcgi_script_name;\n\
+		include        fastcgi_params;\n\
+        }\n";
+                    }
+                    config_file += "    location ~ /\.ht {\n\
+		deny all;\n\
+	}\n";
+                }
+                fs.writeFile(sails.config.definitions.sites_avaiable + "/" + req.param('name') + ".conf", config_file, function (err) {
+                    if (!err) {
+                        var exec = require('child_process').exec;
+                        var child;
+                        child = exec(sails.config.definitions.nginx_exec + " reload", function (error, stdout, stderr) {
+                            if (error == null && stderr.indexOf("test is successful") != -1) {
+                                console.log("Nginx reloaded! Domain: " + req.param('name') + " created");
+                                res.send(200, 'Virtual Host succefully created!');
+                            } else {
+                                console.error(error + "\n" + stderr);
+                                res.send(500, "Error reloading nginx");
+                            }
+                        });
+
+                    } else {
+                        console.error(err);
+                        res.send(500, "Error updating file");
+                    }
+                });
+
             }
         });
     },
     ajaxDeleteVirtualHost: function (req, res) {
         var body = req.body;
-        Virtualhost.destroy({id: body['id']})
-                .exec(function (error, data) {
-                    if (error) {
-                        res.send(500);
-                    } else {
-                        res.send(200, 'Virtual Host  Successfully deleted');
-                    }
+        var fs = require('fs');
+        Virtualhost.findOne({id: body['id']}).exec(function (err, data) {
+            if (!err) {
+                fs.unlink(sails.config.definitions.sites_avaiable + "/" + data.name + ".conf", function (err) {
+                    Virtualhost.destroy({id: body['id']}).exec(function (error, data) {
+                        if (error) {
+                            res.send(500, "Error removing registry");
+                        } else {
+                            var exec = require('child_process').exec;
+                            var child;
+                            child = exec(sails.config.definitions.nginx_exec + " reload", function (error, stdout, stderr) {
+                                if (error == null && stderr.indexOf("test is successful") != -1) {
+                                    console.log("Nginx reloaded! Domain: " + data.name + " created");
+                                    res.send(200, 'Virtual Host  Successfully deleted');
+                                } else {
+                                    console.error(error + "\n" + stderr);
+                                    res.send(500, "Error reloading nginx");
+                                }
+                            });
+                        }
+                    });
                 });
+
+            } else {
+                console.log(err);
+                res.send(500, "Error removing file");
+            }
+        });
+
     },
     ajaxGetInfoVirtualHost: function (req, res) {
         var body = req.body;
@@ -219,5 +302,82 @@ ndt += "\n\
                     }
                 });
     },
+    ajaxEditVirtualHost: function (req, res) {
+        Virtualhost.update({id: req.param('id')}, {
+            port: req.param("port"),
+            name: req.param("name"),
+            rootDirectory: req.param("rootDirectory"),
+            alias: req.param("alias"),
+            phpEnabled: req.param("phpEnabled"),
+            proxyEnabled: req.param("proxyEnabled"),
+            proxyAddress: req.param("proxyAddress")
+        }).exec(function (error, data) {
+            var fs = require('fs');
+            if (error) {
+                error = JSON.stringify(error);
+                error = JSON.parse(error);
+                if (error.error == 'E_VALIDATION') {
+                    var erro = new Object();
+                    erro["type"] = 'VALIDATION';
+                    var el = Object_keys(error.invalidAttributes);
+                    erro["fields"] = el;
+                } else {
+                    var erro = error;
+                }
+                res.send(500, erro);
+            } else {
+
+                if (!fs.existsSync(sails.config.definitions.sites_avaiable)) {
+                    fs.mkdirSync(sails.config.definitions.sites_avaiable);
+                }
+                var config_file = "server {\n\
+	listen " + req.param('port') + ";\n\
+	server_name " + req.param('name') + " " + req.param('alias') + ";\n";
+
+                if (req.param("proxyEnabled") == 'true') {
+                    config_file += "	location / {\n\
+		proxy_pass http://" + req.param("proxyAddress") + ";\n\
+        }\n";
+                } else {
+                    config_file += "    location / {\n\
+        	root   " + req.param('rootDirectory') + ";\n\
+       		index  index.php index.html index.htm;\n\
+		try_files $uri $uri/ /index.php?$args;\n\
+        }\n";
+                    if (req.param('phpEnabled') == 'true') {
+                        config_file += "	location ~ \.php$ {\n\
+		root           html;\n\
+		fastcgi_pass   127.0.0.1:9000;\n\
+		fastcgi_index  index.php;\n\
+		fastcgi_param SCRIPT_FILENAME " + req.param('rootDirectory') + "$fastcgi_script_name;\n\
+		include        fastcgi_params;\n\
+        }\n";
+                    }
+                    config_file += "    location ~ /\.ht {\n\
+		deny all;\n\
+	}\n";
+                }
+                fs.writeFile(sails.config.definitions.sites_avaiable + "/" + req.param('name') + ".conf", config_file, function (err) {
+                    if (!err) {
+                        var exec = require('child_process').exec;
+                        var child;
+                        child = exec(sails.config.definitions.nginx_exec + " reload", function (error, stdout, stderr) {
+                            if (error == null && stderr.indexOf("test is successful") != -1) {
+                                console.log("Nginx reloaded! Domain: " + req.param('name') + " updated");
+                                res.send(200, 'Virtual Host succefully updated!');
+                            } else {
+                                console.error(error + "\n" + stderr);
+                                res.send(500, "Error reloading nginx");
+                            }
+                        });
+
+                    } else {
+                        console.error(err);
+                        res.send(500, "Error updating file");
+                    }
+                });
+            }
+        });
+    }
 };
 

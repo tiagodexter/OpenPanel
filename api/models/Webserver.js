@@ -17,15 +17,14 @@ module.exports = {
 			type: "string"
 		},
 		rootDirectory: {
-			required: true,
 			type: "string"
 		},
 		alias: {
+                        required: true,
 			type: "array"
 		},
 		phpEnabled: {
 			type: "boolean",
-			required: true
 		},
 		proxyEnabled: {
 			type: "boolean",

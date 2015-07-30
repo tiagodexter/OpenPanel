@@ -270,40 +270,74 @@ function Settings() {
 function formCreateVirtualHost(){
 	$('#formCreateVirtualHost').submit(function(e){
 		e.preventDefault();
-		$.ajax({
-			type:"POST",
-			url:"/webserver/ajaxCreateVirtualHost",
-			data:$(this).serialize(),
-			success:function(res){
-				alert(res);
-				$('#myModal').modal('toggle');
-				$('#viewVirtualHosts').click();
-				clearFormVirtualHost();
-			},
-			error:function(err){
-				console.log(JSON.parse(err.responseText));
-				var error = JSON.parse(err.responseText);
-				$('#formCreateVirtualHost input[type=text], input[type=email]').each(function() {
-					$(this).removeClass('alert-danger');
-					$(this).addClass('alert-success');
-				})
-				if (error.type == 'VALIDATION') {
-					$(error.fields).each(function(e,k) {
-						$(this).removeClass('alert-success');
-						$('#'+k).addClass('alert-danger');
-					});
-					alert('Error validatin data! Change data');
-				} else {
-					alert("Error creating user! Try again later");
-				}
-				
-			}
-		});
+                if ($('#type').val() == 'new') {
+                    $.ajax({
+                            type:"POST",
+                            url:"/webserver/ajaxCreateVirtualHost",
+                            data:$(this).serialize(),
+                            success:function(res){
+                                    alert(res);
+                                    $('#myModal').modal('toggle');
+                                    $('#viewVirtualHosts').click();
+                                    clearFormVirtualHost();
+                            },
+                            error:function(err){
+                                    console.log(JSON.parse(err.responseText));
+                                    var error = JSON.parse(err.responseText);
+                                    $('#formCreateVirtualHost input[type=text], input[type=email]').each(function() {
+                                            $(this).removeClass('alert-danger');
+                                            $(this).addClass('alert-success');
+                                    })
+                                    if (error.type == 'VALIDATION') {
+                                            $(error.fields).each(function(e,k) {
+                                                    $(this).removeClass('alert-success');
+                                                    $('#'+k).addClass('alert-danger');
+                                            });
+                                            alert('Error validatin data! Change data');
+                                    } else {
+                                            alert("Error creating user! Try again later");
+                                    }
+
+                            }
+                    });
+            }
+            if ($('#type').val() == 'edit') {
+                $.ajax({
+                            type:"POST",
+                            url:"/webserver/ajaxEditVirtualHost",
+                            data:$(this).serialize(),
+                            success:function(res){
+                                console.log(res);
+                                    alert(res);
+                                    $('#myModal').modal('toggle');
+                                    $('#viewVirtualHosts').click();
+                                    clearFormVirtualHost();
+                            },
+                            error:function(err){
+                                    console.log(JSON.parse(err.responseText));
+                                    var error = JSON.parse(err.responseText);
+                                    $('#formCreateVirtualHost input[type=text], input[type=email]').each(function() {
+                                            $(this).removeClass('alert-danger');
+                                            $(this).addClass('alert-success');
+                                    })
+                                    if (error.type == 'VALIDATION') {
+                                            $(error.fields).each(function(e,k) {
+                                                    $(this).removeClass('alert-success');
+                                                    $('#'+k).addClass('alert-danger');
+                                            });
+                                            alert('Error validatin data! Change data');
+                                    } else {
+                                            alert("Error creating user! Try again later");
+                                    }
+
+                            }
+                    });
+            }
 	});
 };
 
 function deleteVirtualHost(){
-	$('.fa-trash').click(function (e) {		
+	$('.delete').click(function (e) {		
 		e.preventDefault();
 		$.ajax({
 			type:"POST",
@@ -321,8 +355,9 @@ function deleteVirtualHost(){
 };
 
 function getInfoVirtualHost(){
-	$('.fa-edit').click(function (e) {		
+	$('.edit').click(function (e) {		
 		e.preventDefault();
+                $('#type').val('edit');
 		$.ajax({
 			type:"POST",
 			url:"/webserver/ajaxGetInfoVirtualHost",
@@ -330,17 +365,19 @@ function getInfoVirtualHost(){
 			success:function(res){				
 				$('#port').val(res[0].port);
 				$('#name').val(res[0].name);
+                                $('#idcode').val(res[0].id);
 				$('#alias').val(res[0].alias);
 				$('#rootDirectory').val(res[0].rootDirectory);
 				$('#proxyAddress').val(res[0].proxyAddress);
 				$('#proxyEnabled option').each(function() {
 					if(JSON.parse($(this).val()) == res[0].proxyEnabled) {
-				        $(this).prop("selected", true);
+                                            $(this).prop("selected", true);
+                                            $('#proxy_address').show();
 				    }								   
 				});
 				$('#phpEnabled option').each(function() {
 					if(JSON.parse($(this).val()) == res[0].phpEnabled) {
-				        $(this).prop("selected", true);
+                                            $(this).prop("selected", true);
 				    }								   
 				});	
 				$('#myModalLabel').html("Update Virtual Host");		
@@ -348,7 +385,7 @@ function getInfoVirtualHost(){
 				$('#myModal').modal('toggle');
 			},
 			error:function(err){
-				alert("User or Password incorrect");
+				alert(err);
 			}
 		});
 	});
@@ -359,15 +396,15 @@ function modalCreateVirtualHost(){
 		$('#myModalLabel').html("Create Virtual Host");
 		$('.btn-primary').html('<i class="fa fa-save"> Create');
 		clearFormVirtualHost();
+                $('#type').val('new');
 	});
         $('#proxyEnabled').change(function() {
                 if ($(this).val() == "true") {
                     $('#proxy_address').show();
-                    $('#phpEnabled').prop('disabled',true);
+                    $('#phpEnabled').val('');
                     $('#phpEnabled').val('false');
                 } else {
                     $('#proxy_address').hide();
-                    $('#phpEnabled').prop('disabled',false);
                     $('#phpEnabled').val('true');
                 }
         });
@@ -379,4 +416,24 @@ function clearFormVirtualHost(){
 	$('#alias').val('');
 	$('#rootDirectory').val('');
 	$('#proxyAddress').val('');
-};
+}
+
+function searchVirtualHost() {
+    $('#input_search').keyup(function(k) {
+        if (k.which == 13) {
+            $('#btn_search').click();
+        }
+    });
+    
+    $('#btn_search').click(function(e) {
+        e.preventDefault();
+        $('.vhosts').each(function() {
+            var info = $(this).attr('data-info');
+            if (info.indexOf($('#input_search').val()) == -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        })
+    });
+}
